@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">FarmerConnect</string>
+    <string name="app_name">Farmer\nConnect</string>
+
+
+        //Headings
+        <string name="heading_one">QR CODE SCANNER </string>
+        <string name="heading_two">DONATING TO FARMERS</string>
+        <string name="heading_three">DATA SECURITY</string>
+
+        //Description
+        <string name="desc_one">Once the QR code is scanned, the app can extract the data from the QR code, which could include the farmer\'s unique ID or other relevant information.</string>
+        <string name="desc_two">Once the QR code is scanned, the app can extract the data from the QR code, which could include the farmer\'s unique ID or other relevant information.</string>
+        <string name="desc_three">Once the QR code is scanned, the app can extract the data from the QR code, which could include the farmer\'s unique ID or other relevant information.</string>
+
 </resources>
