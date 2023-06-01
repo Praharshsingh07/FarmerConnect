@@ -26,12 +26,12 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 // Create an Intent to start the next activity
-                Intent intent = new Intent(SplashScreen.this, WalkthroughActivity.class);
+                Intent intent = new Intent(SplashScreen.this, registerUser.class);
                 startActivity(intent);
 
                 // Close the splash screen activity
                 finish();
             }
-        }, SPLASH_TIMEOUT);
+        }, 2000);
     }
 }
