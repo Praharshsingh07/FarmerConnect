@@ -26,7 +26,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 // Create an Intent to start the next activity
-                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent intent = new Intent(SplashScreen.this, WalkthroughActivity.class);
                 startActivity(intent);
 
                 // Close the splash screen activity
