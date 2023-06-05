@@ -46,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         loadFragment(new HomeFragment());
                         return true;
                     case R.id.menu_search:
-//                        loadFragment(new SearchFragment());
-                        Intent i=new Intent(MainActivity.this,DonationActivity.class);
-                        startActivity(i);
+                        loadFragment(new ScannerFragment());
                         return true;
                     case R.id.menu_profile:
                         loadFragment(new ProfileFragment());

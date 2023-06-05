@@ -22,16 +22,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,10 +56,10 @@ public class LoginActivity extends AppCompatActivity {
     // button for generating OTP
     private Button generateOTPBtn;
 
-    private TextView gotoEmail,gotoPhone,tv5,tv6;
-    private RelativeLayout relPhone,relEmail,signInButton;
+    private TextView gotoEmail, gotoPhone, tv5, tv6;
+    private RelativeLayout relPhone, relEmail, signInButton;
     Button loginUsingEmail;
-    EditText getLoginEmail,getLoginPassword;
+    EditText getLoginEmail, getLoginPassword;
 
     // string for storing the verification ID
     private String verificationId;
@@ -66,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
         Window window = this.getWindow();
-        window.setStatusBarColor(this.getResources ().getColor(R.color.top));
+        window.setStatusBarColor(this.getResources().getColor(R.color.top));
 
         // initializing instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -74,10 +81,10 @@ public class LoginActivity extends AppCompatActivity {
         // initializing variables for EditText and Button
         edtPhone = findViewById(R.id.idEdtPhoneNumber);
         generateOTPBtn = findViewById(R.id.idBtnGetOtp);
-        gotoEmail=findViewById(R.id.gotoEmail);
-        gotoPhone=findViewById(R.id.gotoPhone);
-        relEmail=findViewById(R.id.relEmail);
-        relPhone=findViewById(R.id.relPhone);
+        gotoEmail = findViewById(R.id.gotoEmail);
+        gotoPhone = findViewById(R.id.gotoPhone);
+        relEmail = findViewById(R.id.relEmail);
+        relPhone = findViewById(R.id.relPhone);
         loginUsingEmail = findViewById(R.id.loginWithEmailButton);
         getLoginEmail = findViewById(R.id.loginEmail);
         getLoginPassword = findViewById(R.id.loginPassword);
@@ -90,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         tv6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
             }
         });
@@ -147,10 +154,10 @@ public class LoginActivity extends AppCompatActivity {
         // send OTP to the provided phone number
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(number)		 // Phone number to verify
+                        .setPhoneNumber(number)         // Phone number to verify
                         .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)				 // Activity (for callback binding)
-                        .setCallbacks(mCallBack)		 // OnVerificationStateChangedCallbacks
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallBack)         // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
@@ -186,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onVerificationFailed(FirebaseException e) {
             // display an error message
             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("myapp",""+e.getMessage());
+            Log.d("myapp", "" + e.getMessage());
         }
     };
 
@@ -198,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
         if (gle.equals("") || glp.equals("")) {
             Toast.makeText(this, "Please Enter the Complete Information", Toast.LENGTH_SHORT).show();
         } else {
-            mAuth.signInWithEmailAndPassword(gle,glp).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signInWithEmailAndPassword(gle, glp).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -206,8 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                         //    pg.cancel();
                         Intent go2 = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(go2);
-                    }
-                    else{
+                    } else {
                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -216,15 +222,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-
-
-
-
-
 
 
     private void signInWithGoogle() {
@@ -237,8 +234,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-
 
 
     @Override
@@ -266,51 +261,40 @@ public class LoginActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
 
-//                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                        String email = user.getEmail();
-
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
 
-//                        db.collection("user-students").document(email).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                if (documentSnapshot.exists()) {
-//                                    Intent intent = new Intent(LoginActivity.this, StudentDashBoardActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
-//                                } else {
-//                                    db.collection("user-teachers").document(email).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                        @Override
-//                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                            if (documentSnapshot.exists()) {
-//                                                Intent intent = new Intent(LoginActivity.this, TeacherDashBoardActivity.class);
-//                                                startActivity(intent);
-//                                                finish();
-//                                            } else {
-//                                                db.collection("user-admins").document(email).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                                    @Override
-//                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                                        if (documentSnapshot.exists()) {
-//                                                            Intent intent = new Intent(LoginActivity.this, AdminDashBoardActivity.class);
-//                                                            startActivity(intent);
-//                                                            finish();
-//                                                        } else {
-//                                                            Intent intent = new Intent(LoginActivity.this, StudentProfileFillActivity.class);
-//                                                            startActivity(intent);
-//                                                            finish();
-//                                                        }
-//                                                    }
-//                                                });
-//                                            }
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        });
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String email = user.getEmail();
+                        String name = user.getDisplayName();
 
+                        // Create a data object to store the user's email and name
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("email", email);
+                        userData.put("name", name);
+
+                        // Save the user's email and name to the "users" collection in Firestore
+                        db.collection("users").document(email)
+                                .set(userData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Document created successfully
+                                        Log.d("LoginActivity", "User document created successfully!");
+
+                                        // Proceed with your desired logic
+                                        // ...
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Error creating document
+                                        Log.e("LoginActivity", "Error creating user document", e);
+                                    }
+                                });
 
 
                     } else {

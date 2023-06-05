@@ -16,12 +16,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.suretrust.farmerconnect.MainActivity;
 
 public class VerifyOTPActivity extends AppCompatActivity {
 
@@ -45,7 +43,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_verify_otpactivity);
+        setContentView(R.layout.activity_verify_otp);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources ().getColor(R.color.white));
 
