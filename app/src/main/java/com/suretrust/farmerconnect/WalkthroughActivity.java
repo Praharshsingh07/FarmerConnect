@@ -58,7 +58,7 @@ public class WalkthroughActivity extends AppCompatActivity {
                     mSLideViewPager.setCurrentItem(getitem(1),true);
                 else {
 
-                    Intent intent = new Intent(WalkthroughActivity.this, MainActivity.class);
+                    Intent intent = new Intent(WalkthroughActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
@@ -73,7 +73,7 @@ public class WalkthroughActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(WalkthroughActivity.this,MainActivity.class);
+                Intent i = new Intent(WalkthroughActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
 

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -14,7 +13,6 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class registerUser extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     Button registerUser,performLogin;
     FirebaseAuth fAuth;
     TextView txt1;
@@ -37,7 +35,7 @@ public class registerUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_user);
+        setContentView(R.layout.activity_register);
         name = findViewById(R.id.entername);
         email = findViewById(R.id.enteremail);
         phonenumber = findViewById(R.id.enterphonenumber);
@@ -65,7 +63,7 @@ public class registerUser extends AppCompatActivity {
 //                pg.setMessage("Wait while Registering you");
 
                 if(getname.equals("")||getnumber.equals("")||getemail.equals("")||getpassword.equals("")){
-                    Toast.makeText(registerUser.this, "Please Enter the Complete information", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please Enter the Complete information", Toast.LENGTH_SHORT).show();
                 }
 
                 else{
@@ -77,19 +75,19 @@ public class registerUser extends AppCompatActivity {
 
                             firestore.collection("UserData").
                                     document(fAuth.getInstance().getUid()).
-                                    set(new userData(getname,getnumber,getemail));
+                                    set(new UserData(getname,getnumber,getemail));
 
 
-                            startActivity(new Intent(registerUser.this,login_page.class));
+                            startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                             finish();
-                            Toast.makeText(registerUser.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
 //                            pg.cancel();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(registerUser.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 //                            pg.cancel();
 
                         }
@@ -104,7 +102,7 @@ public class registerUser extends AppCompatActivity {
         performLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i2 = new Intent(registerUser.this,login_page.class);
+                Intent i2 = new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(i2);
             }
         });
@@ -115,7 +113,7 @@ public class registerUser extends AppCompatActivity {
         ClickableSpan cs1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Intent i3 = new Intent(registerUser.this,login_page.class);
+                Intent i3 = new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(i3);
             }
         };

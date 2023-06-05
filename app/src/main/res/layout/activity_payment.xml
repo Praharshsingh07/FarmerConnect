@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/upi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay with UPI" />
+
+    <Button
+        android:id="@+id/paytm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay with Paytm"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/gpay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay with Google Pay"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/phonepe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay with PhonePe"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/bhim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay with BHIM UPI"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/upi_id_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter UPI ID"
+        />
+
+    <EditText
+        android:id="@+id/amount_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Amount"
+        />
+
+
+</LinearLayout>
