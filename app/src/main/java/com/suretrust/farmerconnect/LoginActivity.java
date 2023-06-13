@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     // button for generating OTP
     private Button generateOTPBtn;
 
-    private TextView gotoEmail, gotoPhone, tv5, tv6;
+    private TextView gotoEmail, gotoPhone, tv5, tv6,forgot;
     private RelativeLayout relPhone, relEmail, signInButton;
     Button loginUsingEmail;
     EditText getLoginEmail, getLoginPassword;
@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.googleSignInButton);
         tv5 = findViewById(R.id.tv5);
         tv6 = findViewById(R.id.tv6);
+        forgot = findViewById(R.id.forgot);
 
         signInButton.setOnClickListener(view -> signInWithGoogle());
 
@@ -98,6 +99,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
+            }
+        });
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(LoginActivity.this,ResetEmailPasswordActivity.class);
                 startActivity(i);
             }
         });

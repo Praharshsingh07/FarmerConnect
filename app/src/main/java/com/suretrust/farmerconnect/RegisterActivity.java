@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView txt1;
 
     FirebaseFirestore firestore;
-    EditText name,email,password,phonenumber;
+    EditText name,email,password;
 //    ProgressBar pg;
 
     @SuppressLint("MissingInflatedId")
@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         name = findViewById(R.id.entername);
         email = findViewById(R.id.enteremail);
-        phonenumber = findViewById(R.id.enterphonenumber);
         password = findViewById(R.id.enterpassword);
         performLogin = findViewById(R.id.performLogin);
 
@@ -54,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String getname = name.getText().toString().trim();
-                String getnumber = phonenumber.getText().toString().trim();
                 String getemail = email.getText().toString().trim();
                 String getpassword = password.getText().toString().trim();
 
@@ -62,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                pg.setTitle("Saving data");
 //                pg.setMessage("Wait while Registering you");
 
-                if(getname.equals("")||getnumber.equals("")||getemail.equals("")||getpassword.equals("")){
+                if(getname.equals("")||getemail.equals("")||getpassword.equals("")){
                     Toast.makeText(RegisterActivity.this, "Please Enter the Complete information", Toast.LENGTH_SHORT).show();
                 }
 
@@ -73,9 +71,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
 
-                            firestore.collection("UserData").
-                                    document(fAuth.getInstance().getUid()).
-                                    set(new UserData(getname,getnumber,getemail));
+                            firestore.collection("users")
+                                    .document(getemail)
+                                    .set(new UserData(getname, getemail));
+
 
 
                             startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
@@ -95,9 +94,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
         performLogin.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_home:
                         loadFragment(new HomeFragment());
                         return true;
-                    case R.id.menu_search:
+                    case R.id.menu_fragment:
                         loadFragment(new ScannerFragment());
                         return true;
                     case R.id.menu_profile:

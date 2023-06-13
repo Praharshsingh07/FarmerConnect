@@ -96,12 +96,21 @@
             android:paddingLeft="20dp"
             android:backgroundTint="#E3D6D6"/>
 
+        <TextView
+            android:id="@+id/forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot password?"
+            android:textColor="#5E4290"
+            android:layout_below="@id/loginPassword"
+            android:layout_alignParentEnd="true"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginWithEmailButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_below="@id/loginPassword"
+            android:layout_below="@id/forgot"
             android:textSize="22sp"
             android:textColor="@color/white"
             android:background="@drawable/req_otp"
@@ -114,6 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rel1"
+        android:visibility="visible"
         android:layout_marginTop="41dp">
 
         <TextView
@@ -180,6 +190,7 @@
                 android:background="@color/white"
                 android:inputType="phone" />
         </RelativeLayout>
+
 
         <Button
             android:id="@+id/idBtnGetOtp"

@@ -94,7 +94,8 @@ public class VerifyOTPActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // if the OTP is correct and the task is successful,
                             // send the user to the MainActivity
-                            Intent i = new Intent(VerifyOTPActivity.this, MainActivity.class);
+                            Intent i = new Intent(VerifyOTPActivity.this, OTPVerifiedActivity.class);
+                            i.putExtra("mob_no", mob_no);
                             startActivity(i);
                             finish();
                         } else {
