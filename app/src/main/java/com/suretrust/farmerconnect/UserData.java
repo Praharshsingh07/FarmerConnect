@@ -2,14 +2,14 @@ package com.suretrust.farmerconnect;
 
 public class UserData {
     String name;
-    String email;
+    String id;
 
     public UserData() {
     }
 
-    public UserData(String name, String email) {
+    public UserData(String name, String id) {
         this.name = name;
-        this.email = email;
+        this.id = id;
     }
 
     public String getName() {
@@ -20,11 +20,11 @@ public class UserData {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getId() {
+        return id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FarmerConnect"
         tools:targetApi="31">
         <activity
+            android:name=".ScannerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResetEmailPasswordActivity"
             android:exported="false" />
         <activity

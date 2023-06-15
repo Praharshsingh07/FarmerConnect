@@ -3,39 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScannerActivity">
+    tools:context=".ScannerActivity"
+    android:padding="10dp"
+    android:background="@drawable/sack_grain">
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerVertical="true"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/boxborder"
         android:layout_centerInParent="true"/>
 
-    <TextView
-        android:id="@+id/txtBarcodeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@id/surfaceView"
-        android:layout_marginStart="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="No Barcode Detected"
-        android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btn2"
+    <ImageView
+        android:id="@+id/qr"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/qr" />
+
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:layout_below="@id/txtBarcodeValue"
+        android:layout_height="170dp"
+        android:src="@drawable/bottomrectangle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="350dp"/>
+    
     <Button
-        android:id="@+id/btnStartScanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Scanner" />
+        android:id="@+id/scan_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/img"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/scan_btn"
+        android:text="Scan to get details"
+        android:textColor="@color/white"
+        android:textSize="22dp"/>
+
 
 
 </RelativeLayout>

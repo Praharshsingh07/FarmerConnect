@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -38,10 +39,10 @@ public class OTPVerifiedActivity extends AppCompatActivity {
                 // Create a map to store the user's data
                 Map<String, Object> userData = new HashMap<>();
                 userData.put("name", name);
-                userData.put("mobileNumber", mobileNumber);
+                userData.put("id", mobileNumber);
 
-                // Save user data in Firestore
-                db.collection("users").document(mobileNumber)
+                // Save user data in Firestore using UID as document ID
+                db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .set(userData)
                         .addOnSuccessListener(task -> {
                             // Data saved successfully

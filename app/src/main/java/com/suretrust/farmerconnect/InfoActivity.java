@@ -18,7 +18,7 @@ public class InfoActivity extends AppCompatActivity {
         textViewData = findViewById(R.id.textViewScannedData);
 
         // Get the scanned data from the intent
-        String scannedData = getIntent().getStringExtra("scannedData");
+        String scannedData = getIntent().getStringExtra("scanned_info");
 
         // Display the scanned data
         textViewData.setText(scannedData);

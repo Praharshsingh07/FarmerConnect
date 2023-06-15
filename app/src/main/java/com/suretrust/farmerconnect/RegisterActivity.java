@@ -23,13 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button registerUser,performLogin;
+    Button registerUser, performLogin;
     FirebaseAuth fAuth;
     TextView txt1;
 
     FirebaseFirestore firestore;
-    EditText name,email,password;
-//    ProgressBar pg;
+    EditText name, email, password;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,10 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         registerUser = findViewById(R.id.registerbutton);
-//        pg = findViewById(R.id.progressbar);
         txt1 = findViewById(R.id.txt1);
-
-
 
         registerUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,41 +52,41 @@ public class RegisterActivity extends AppCompatActivity {
                 String getemail = email.getText().toString().trim();
                 String getpassword = password.getText().toString().trim();
 
-//                pg = new ProgressDialog(registerUser.this);
-//                pg.setTitle("Saving data");
-//                pg.setMessage("Wait while Registering you");
+                if (getname.equals("") || getemail.equals("") || getpassword.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Please enter complete information", Toast.LENGTH_SHORT).show();
+                } else {
+                    fAuth.createUserWithEmailAndPassword(getemail, getpassword)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    String uid = fAuth.getCurrentUser().getUid();
 
-                if(getname.equals("")||getemail.equals("")||getpassword.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Please Enter the Complete information", Toast.LENGTH_SHORT).show();
-                }
+                                    UserData userData = new UserData(getname, getemail);
 
-                else{
-//                    pg.show();
-
-                    fAuth.createUserWithEmailAndPassword(getemail,getpassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-
-                            firestore.collection("users")
-                                    .document(getemail)
-                                    .set(new UserData(getname, getemail));
-
-
-
-                            startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                            finish();
-                            Toast.makeText(RegisterActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
-//                            pg.cancel();
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            pg.cancel();
-
-                        }
-                    });
+                                    firestore.collection("users").document(uid)
+                                            .set(userData)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                    finish();
+                                                    Toast.makeText(RegisterActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(RegisterActivity.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
@@ -98,25 +94,22 @@ public class RegisterActivity extends AppCompatActivity {
         performLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i2 = new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(i2);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
-
-        String test1 = "Having an account then Login With Us!";
-        SpannableString ss = new SpannableString(test1);
-        ClickableSpan cs1 = new ClickableSpan() {
+        String text = "Already have an account? Login With Us!";
+        SpannableString spannableString = new SpannableString(text);
+        ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Intent i3 = new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(i3);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         };
-        ss.setSpan(cs1,23,28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        txt1.setText(ss);
+        spannableString.setSpan(clickableSpan, 23, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        txt1.setText(spannableString);
         txt1.setMovementMethod(LinkMovementMethod.getInstance());
-
-
     }
 }
