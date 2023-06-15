@@ -16,6 +16,11 @@ public class DonationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation);
 
+
+        String upiID = getIntent().getStringExtra("upiID");
+        String name = getIntent().getStringExtra("name");
+
+
         pay_btn=findViewById(R.id.pay_btn);
 
         pay_btn.setOnClickListener(new View.OnClickListener() {

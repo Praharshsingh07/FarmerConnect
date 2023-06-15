@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,37 +17,24 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.suretrust.farmerconnect.InfoActivity;
 
 import java.io.IOException;
 
 public class ScannerActivity extends AppCompatActivity {
 
     SurfaceView surfaceView;
-    TextView textViewBarCodeValue;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-    String intentData = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
         initComponents();
-
-        Button btn;
-        btn = findViewById(R.id.btn2);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initComponents();
-            }
-        });
     }
 
     private void initComponents() {
-        textViewBarCodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
         initialiseDetectorsAndSources();
     }
@@ -111,18 +95,17 @@ public class ScannerActivity extends AppCompatActivity {
     }
 
     private void setBarCode(final SparseArray<Barcode> barCode) {
-        textViewBarCodeValue.post(new Runnable() {
+        surfaceView.post(new Runnable() {
             @Override
             public void run() {
-                intentData = barCode.valueAt(0).displayValue;
-                textViewBarCodeValue.setText(intentData);
-                redirectToInfoActivity(intentData);
+                String scannedInfo = barCode.valueAt(0).displayValue;
+                redirectToInfoActivity(scannedInfo);
             }
         });
     }
 
     private void redirectToInfoActivity(String scannedInfo) {
-        Intent intent = new Intent(ScannerActivity.this, InfoActivity.class);
+        Intent intent = new Intent(ScannerActivity.this, ProdInfoActivity.class);
         intent.putExtra("scanned_info", scannedInfo);
         startActivity(intent);
         finish();
