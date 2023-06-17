@@ -1,5 +1,6 @@
 package com.suretrust.farmerconnect;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 123;
+    ProgressBar pgLogin;
 
     // variable for FirebaseAuth class
     private FirebaseAuth mAuth;
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     private String verificationId;
     String phone;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Window window = this.getWindow();
         window.setStatusBarColor(this.getResources().getColor(R.color.top));
+        pgLogin = findViewById(R.id.progressbarLogin);
 
         // initializing instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
@@ -199,22 +204,34 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     public void logintheUser() {
+        pgLogin.setVisibility(View.VISIBLE);
 
         String gle = getLoginEmail.getText().toString().trim();
         String glp = getLoginPassword.getText().toString().trim();
 
         if (gle.equals("") || glp.equals("")) {
             Toast.makeText(this, "Please Enter the Complete Information", Toast.LENGTH_SHORT).show();
+            pgLogin.setVisibility(View.INVISIBLE);
+
         } else {
             mAuth.signInWithEmailAndPassword(gle, glp).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                        Intent go2 = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(go2);
+                        if(mAuth.getCurrentUser().isEmailVerified()){
+                            Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                            pgLogin.setVisibility(View.INVISIBLE);
+                            Intent go2 = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(go2);
+                            finish();
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this, "Please Verify Your Email First", Toast.LENGTH_SHORT).show();
+                            pgLogin.setVisibility(View.INVISIBLE);
+                        }
                     } else {
                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        pgLogin.setVisibility(View.INVISIBLE);
                     }
                 }
             });

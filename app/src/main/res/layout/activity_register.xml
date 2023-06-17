@@ -29,6 +29,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:inputType="text"
+        android:textColorHint="@color/black"
+        android:paddingStart="25dp"
         android:layout_marginTop="60dp"
         android:layout_below="@+id/logoimage"/>
 
@@ -45,6 +47,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="25dp"
+        android:textColorHint="@color/black"
+        android:paddingStart="25dp"
         android:inputType="textEmailAddress"
         android:layout_below="@+id/entername"/>
     <EditText
@@ -60,6 +64,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="25dp"
+        android:textColorHint="@color/black"
+        android:paddingStart="25dp"
         android:inputType="textPassword"
         android:layout_below="@+id/enteremail"/>
 
@@ -112,15 +118,17 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="50dp"
         android:textStyle="bold"
-        android:textSize="26dp"
+        android:textSize="28dp"
         android:layout_marginTop="15dp"
         android:layout_below="@+id/logoimage"/>
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressbar"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:visibility="invisible"/>-->
+
+
+    <ProgressBar
+        android:id="@+id/progressbarRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>
