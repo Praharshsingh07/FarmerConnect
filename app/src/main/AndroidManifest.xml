@@ -42,9 +42,6 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".DonationActivity"
-            android:exported="false" />
-        <activity
             android:name=".WalkthroughActivity"
             android:exported="false" />
         <activity

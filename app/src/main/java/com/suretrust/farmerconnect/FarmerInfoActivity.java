@@ -77,7 +77,7 @@ public class FarmerInfoActivity extends AppCompatActivity {
         donate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FarmerInfoActivity.this, DonationActivity.class);
+                Intent intent = new Intent(FarmerInfoActivity.this, PaymentActivity.class);
                 intent.putExtra("upiID", upi);
                 intent.putExtra("name", f_name);
                 startActivity(intent);

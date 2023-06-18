@@ -7,45 +7,59 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 123;
-    private EditText upiIdEditText;
     private EditText amountEditText;
+
+    private RadioButton upi_radio;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_payment);
+        Window window = this.getWindow();
+        window.setStatusBarColor(this.getResources().getColor(R.color.top));
 
-        /*1.1 Defining the variables with sample UPI Apps package names. The merchant can add more UPI apps with their package names according to their requirement */
+        String upiID = getIntent().getStringExtra("upiID");
+        String name = getIntent().getStringExtra("name");
+
+        TextView nametv=findViewById(R.id.name);
+        nametv.setText(name);
+
         String BHIM_UPI = "in.org.npci.upiapp";
         String GOOGLE_PAY = "com.google.android.apps.nbu.paisa.user";
         String PHONE_PE = "com.phonepe.app";
         String PAYTM = "net.one97.paytm";
 
-        /*1.2 Combining the UPI app package name variables in a list */
         List<String> upiApps = Arrays.asList(PAYTM, GOOGLE_PAY, PHONE_PE, BHIM_UPI);
 
-        /*2.1 Defining button elements for generic UPI OS intent and specific UPI Apps */
         Button upiButton = findViewById(R.id.upi);
         Button paytmButton = findViewById(R.id.paytm);
         Button gpayButton = findViewById(R.id.gpay);
         Button phonepeButton = findViewById(R.id.phonepe);
         Button bhimButton = findViewById(R.id.bhim);
-        upiIdEditText=findViewById(R.id.upi_id_edittext);
         amountEditText=findViewById(R.id.amount_edittext);
+        upi_radio=findViewById(R.id.upi_radio);
 
-        /*2.2 Combining button elements of specific UPI Apps in a list in the same order as the above upiApps list of UPI app package names */
         List<Button> upiAppButtons = Arrays.asList(paytmButton, gpayButton, phonepeButton, bhimButton);
 
         /*3. Defining a UPI intent with a Paytm merchant UPI spec deeplink */
@@ -53,18 +67,15 @@ public class PaymentActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.setData(Uri.parse(uri));
 
-        /*4.1 Defining an on click action for the UPI generic OS intent chooser. This is just for reference, not needed in case of UPI Smart Intent.
-            - This will display a list of all apps available to respond to the UPI intent
-            in a chooser tray by the Android OS */
         upiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String upiId = upiIdEditText.getText().toString().trim();
+                String upiId = upiID;
                 String amount = amountEditText.getText().toString().trim();
 
                 // Check if the UPI ID and amount are not empty
-                if (upiId.isEmpty() || amount.isEmpty()) {
-                    Toast.makeText(PaymentActivity.this, "Please enter UPI ID and amount", Toast.LENGTH_SHORT).show();
+                if (amount.isEmpty() || upi_radio.isSelected()) {
+                    Toast.makeText(PaymentActivity.this, "Please enter amount and select payment method", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -78,15 +89,6 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
-        /*4.2 Defining an on click action for the UPI intent to be carried out by specific apps
-            - Clicking on the respective buttons will invoke those specific UPI apps (whenever available)
-            - The buttons for specific UPI apps will be displayed when following conditions are met:
-                1. App is installed
-                 2. App is in the list of apps ready to respond to a UPI intent
-                    -> This is how the SMART INTENT will work
-                    -> The button will only be visible when the app has a UPI ready user
-
-            This will also log the results of the above two check in debug logs */
         for (int i = 0; i < upiApps.size(); i++) {
             final Button b = upiAppButtons.get(i);
             final String p = upiApps.get(i);
@@ -108,8 +110,6 @@ public class PaymentActivity extends AppCompatActivity {
         }
     }
 
-    /*This function is to log the returned results of the transaction.
-        - One can replace this with the standard UPI intent result handler code. */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,9 +126,6 @@ public class PaymentActivity extends AppCompatActivity {
         }
     }
 
-    /*
-        This function checks if the app with this package name is installed on the phone
-    */
     public boolean isAppInstalled(String packageName) {
         PackageManager pm = getPackageManager();
         try {
@@ -140,11 +137,6 @@ public class PaymentActivity extends AppCompatActivity {
         return false;
     }
 
-    /*
-        This function checks if the app with this package name is responding to UPI intent
-        - i.e. the app has a ready UPI user (as per the NPCI recommended implementation)
-        - Circular: https://www.npci.org.in/sites/default/files/circular/Circular-73-Payer_App_behaviour_for_Intent_based_transaction_on_UPI.pdf
-    */
     public boolean isAppUpiReady(String packageName) {
         boolean appUpiReady = false;
         Intent upiIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("upi://pay"));
