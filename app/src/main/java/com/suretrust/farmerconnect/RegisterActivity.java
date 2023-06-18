@@ -13,11 +13,14 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseFirestore firestore;
     EditText name, email, password;
+    ProgressBar pgRegister;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.enteremail);
         password = findViewById(R.id.enterpassword);
         performLogin = findViewById(R.id.performLogin);
+        pgRegister = findViewById(R.id.progressbarRegister);
 
         fAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -51,11 +56,13 @@ public class RegisterActivity extends AppCompatActivity {
                 String getname = name.getText().toString().trim();
                 String getemail = email.getText().toString().trim();
                 String getpassword = password.getText().toString().trim();
+                pgRegister.setVisibility(View.VISIBLE);
 
                 if (getname.equals("") || getemail.equals("") || getpassword.equals("")) {
                     Toast.makeText(RegisterActivity.this, "Please enter complete information", Toast.LENGTH_SHORT).show();
+                    pgRegister.setVisibility(View.INVISIBLE);
                 } else {
-                    fAuth.createUserWithEmailAndPassword(getemail, getpassword)
+                    fAuth.createUserWithEmailAndPassword(getemail,getpassword)
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
@@ -68,15 +75,23 @@ public class RegisterActivity extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                    finish();
-                                                    Toast.makeText(RegisterActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                                                    fAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                            finish();
+                                                            Toast.makeText(RegisterActivity.this, "User Registered Successfully, Please Check The Verification Link Send To Your Registered Email.", Toast.LENGTH_SHORT).show();
+                                                            pgRegister.setVisibility(View.INVISIBLE);
+                                                        }
+                                                    });
+
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
                                                     Toast.makeText(RegisterActivity.this, "Failed to save user data", Toast.LENGTH_SHORT).show();
+                                                    pgRegister.setVisibility(View.INVISIBLE);
                                                 }
                                             });
                                 }
@@ -85,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    pgRegister.setVisibility(View.INVISIBLE);
                                 }
                             });
 
@@ -109,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-        spannableString.setSpan(clickableSpan, 23, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan, 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         txt1.setText(spannableString);
         txt1.setMovementMethod(LinkMovementMethod.getInstance());
     }

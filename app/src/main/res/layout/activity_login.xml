@@ -78,6 +78,7 @@
             android:layout_centerHorizontal="true"
             android:hint="Enter your Password"
             android:inputType="textPassword"
+            android:paddingLeft="20dp"
             android:layout_below="@id/loginEmail"
             android:textColor="@color/black"
             android:textColorHint="@color/black" />
@@ -310,5 +311,11 @@
         android:layout_marginTop="10dp"
         android:visibility="gone"
         android:text="Create New Account"/>
+    <ProgressBar
+        android:id="@+id/progressbarLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
 
 </RelativeLayout>
