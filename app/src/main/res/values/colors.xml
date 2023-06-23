@@ -18,4 +18,17 @@
     <color name="active">#50C2C9</color>
     <color name="greencolor">#50C2C9</color>
 
+    <color name="teal_400">#26a69a</color>
+    <color name="black_900_7f">#7f000000</color>
+    <color name="teal_400_4c">#4c26a69a</color>
+    <color name="teal_400_7f">#7f26a69a</color>
+    <color name="black_900_cc">#cc000000</color>
+    <color name="black_900_33">#33000000</color>
+    <color name="black_900">#000000</color>
+    <color name="gray_200_cc">#ccefefef</color>
+    <color name="black_900_3f">#3f000000</color>
+    <color name="gray_200">#efefef</color>
+    <color name="white_A700">#ffffff</color>
+    <color name="gray_50">#fafafa</color>
+
 </resources>

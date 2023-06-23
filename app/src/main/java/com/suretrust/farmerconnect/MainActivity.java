@@ -13,16 +13,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    CircleImageView cr;
+    DatabaseReference dbref;
     private Button logoutButton;
     private FirebaseAuth mAuth;
+    TextView tx;
 
 
     @Override
@@ -64,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
 
     private void loadFragment(Fragment fragment) {

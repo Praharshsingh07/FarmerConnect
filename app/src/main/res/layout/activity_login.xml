@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv2"
         android:layout_marginTop="30dp"
-        android:padding="5dp"
         android:background="@drawable/select_bg">
 
         <TextView
@@ -71,6 +70,16 @@
         android:visibility="gone"
         android:layout_below="@id/rel1">
 
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email ID"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
         <EditText
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
@@ -80,6 +89,9 @@
             android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:layout_below="@id/loginEmail"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:background="@drawable/email_bg"
             android:textColor="@color/black"
             android:textColorHint="@color/black" />
 
@@ -91,11 +103,14 @@
             android:layout_height="55dp"
             android:layout_centerHorizontal="true"
             android:inputType="textEmailAddress"
+            android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
+            android:gravity="center"
+            android:layout_below="@id/tv11"
             android:hint="Enter Email id"
-            android:paddingLeft="20dp"
-            android:backgroundTint="#E3D6D6"/>
+            android:background="@drawable/email_bg"
+            android:paddingLeft="20dp"/>
 
         <TextView
             android:id="@+id/forgot"
@@ -110,7 +125,7 @@
             android:id="@+id/loginWithEmailButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/forgot"
             android:textSize="22sp"
             android:textColor="@color/white"
@@ -210,7 +225,7 @@
     <LinearLayout
         android:id="@+id/linearRowlinetwo"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_32pxv"
+        android:layout_marginTop="@dimen/_52pxv"
         android:layout_width="match_parent"
         android:layout_below="@id/relPhone"
         android:orientation="horizontal">

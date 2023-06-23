@@ -50,7 +50,7 @@ public class ProdInfoActivity extends AppCompatActivity {
                     // Extract field values from the document
                     String quality = document.getString("quality");
                     String quantity = document.getString("quantity");
-                    String prodDate = document.getString("prod_date");
+                    String prodDate = document.getString("production_date");
                     String prodName = document.getString("prod_name");
                     String prodInfo = document.getString("prod_info");
                     String harvPrac = document.getString("harvesting_practices");

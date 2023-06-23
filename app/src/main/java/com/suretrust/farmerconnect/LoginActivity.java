@@ -2,6 +2,7 @@ package com.suretrust.farmerconnect;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +37,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -129,6 +129,8 @@ public class LoginActivity extends AppCompatActivity {
                 relPhone.setVisibility(View.INVISIBLE);
                 tv5.setVisibility(View.VISIBLE);
                 tv6.setVisibility(View.VISIBLE);
+                gotoEmail.setBackgroundResource(R.drawable.phone_bg);
+                gotoPhone.setBackgroundColor(Color.TRANSPARENT);
             }
         });
 
@@ -139,6 +141,9 @@ public class LoginActivity extends AppCompatActivity {
                 relPhone.setVisibility(View.VISIBLE);
                 tv5.setVisibility(View.INVISIBLE);
                 tv6.setVisibility(View.INVISIBLE);
+                gotoPhone.setBackgroundResource(R.drawable.phone_bg);
+                gotoEmail.setBackgroundColor(Color.TRANSPARENT);
+
             }
         });
 
