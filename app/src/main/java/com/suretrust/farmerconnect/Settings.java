@@ -3,63 +3,43 @@ package com.suretrust.farmerconnect;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    CircleImageView cr;
-    DatabaseReference dbref;
-    private Button logoutButton;
-    private FirebaseAuth mAuth;
+public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout drawerLayout;
+    DatabaseReference dbref;
+    private FirebaseAuth mAuth;
     FirebaseFirestore st;
-    TextView tx,pro;
+    TextView pro;
     String uid;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_settings);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         drawerLayout=findViewById(R.id.drawer_layout);
         NavigationView navigationView=findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener( this);
@@ -82,56 +62,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 pro.setText(documentSnapshot.getString("name"));
             }
         });
-
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = new HomeFragment();
-        fragmentTransaction.commit();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_home:
-                        loadFragment(new HomeFragment());
-                        return true;
-                    case R.id.menu_fragment:
-                        loadFragment(new ScannerFragment());
-                        return true;
-                    case R.id.menu_profile:
-                        loadFragment(new ProfileFragment());
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-
     }
-    @Override
+
+
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
         switch (item.getItemId()){
 
             case R.id.settings:
-                Intent intent = new Intent(MainActivity.this, Settings.class);
-                startActivity(intent);
+                Toast.makeText(this, "Already in this section", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.donationhis:
-                Intent intent1 = new Intent(MainActivity.this, Donation.class);
+                Intent intent1 = new Intent(Settings.this, Donation.class);
                 startActivity(intent1);
                 break;
             case R.id.help:
-                Intent intent2 = new Intent(MainActivity.this, Help.class);
+                Intent intent2 = new Intent(Settings.this, Help.class);
                 startActivity(intent2);
                 break;
             case R.id.info:
-                Intent intent4 = new Intent(MainActivity.this, Information.class);
+                Intent intent4 = new Intent(Settings.this, Settings.class);
                 startActivity(intent4);
                 break;
             case R.id.logout:
@@ -158,10 +110,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
 }

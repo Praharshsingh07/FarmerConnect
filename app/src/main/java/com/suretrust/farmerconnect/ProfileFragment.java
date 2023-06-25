@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.cast.framework.media.ImagePicker;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edt();
+
             }
         });
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -110,52 +110,6 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private void edt() {
-        edit.setVisibility(View.GONE);
-        sv.setVisibility(View.VISIBLE);
-        img.setVisibility(View.VISIBLE);
-
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                image();
-
-            }
-        });
-
-        getuser();
-    }
-
-    private void getuser() {
-        dbref.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists() && snapshot.getChildrenCount()>0)
-                {
-                    if(snapshot.hasChild("image")){
-
-                        String img=snapshot.child("image").getValue().toString();
-                        Picasso.get().load(img).into(cr);
-
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-//    private void image() {
-//        ImagePicker.Companion.with(this)
-//                .crop()	    			//Crop image(Optional), Check Customization for more option
-////                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-////                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-//                .start();
-//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -168,7 +122,6 @@ public class ProfileFragment extends Fragment {
         sv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadimg();
                 edit.setVisibility(View.VISIBLE);
                 sv.setVisibility(View.GONE);
                 img.setVisibility(View.GONE);
@@ -179,49 +132,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void uploadimg() {
-        final ProgressDialog pr=new ProgressDialog(getActivity());
-        pr.setTitle("Set your profile ");
-        pr.setMessage("Please wait");
-        pr.show();
-        if(imguri != null){
 
-            final StorageReference fil=stref.child(mAuth.getCurrentUser().getUid()+".jpg");
-            uplo=fil.putFile(imguri);
-            uplo.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if(task.isSuccessful()){
-
-                        throw task.getException();
-                    }
-
-
-                    return fil.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    if(task.isSuccessful()){
-                        Uri getimg=(Uri) task.getResult();
-                        myuri=getimg.toString();
-
-                        HashMap<String,Object>userMap=new HashMap<>();
-                        userMap.put("image",myuri);
-
-                        dbref.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
-                        pr.dismiss();
-
-                    }
-                }
-            });
-
-        }else{
-            pr.dismiss();
-            Toast.makeText(getActivity(),"Image not selected",Toast.LENGTH_LONG).show();
-        }
-
-    }
 
     private void logout() {
         // Sign out the user from Firebase Auth

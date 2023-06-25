@@ -15,6 +15,18 @@
         android:theme="@style/Theme.FarmerConnect"
         tools:targetApi="31">
         <activity
+            android:name=".Information"
+            android:exported="false" />
+        <activity
+            android:name=".Help"
+            android:exported="false" />
+        <activity
+            android:name=".Donation"
+            android:exported="false" />
+        <activity
+            android:name=".Settings"
+            android:exported="false" />
+        <activity
             android:name=".FarmerInfoActivity"
             android:exported="false" />
         <activity
